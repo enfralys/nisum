@@ -1,0 +1,31 @@
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+	implementation project( ':reactive-web')
+	implementation project( ':r2dbc-postgresql')
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+    implementation project( ':rest-consumer')
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation project(':model')
+    implementation project(':usecase')
+    implementation 'org.springframework.boot:spring-boot-starter'
+    runtimeOnly('org.springframework.boot:spring-boot-devtools')
+}
+
+task explodedJar(type: Copy) {
+    with jar
+    into "${buildDir}/exploded"
+}
+
+jar {
+    // To disable the *-plain.jar
+    enabled = false
+}
+
+bootJar {
+    // Sets output jar name
+    archiveFileName = "${project.getParent().getName()}.${archiveExtension.get()}"
+}
